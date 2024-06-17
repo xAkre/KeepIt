@@ -9,11 +9,14 @@
         "format": "npx prettier --write .",
         "lint": "npx prettier --check . && npx eslint ./src",
         "pre:push": "npm run format && npm run lint",
-        "dev": "npx nodemon --exec \"npx tsx src/index.ts\" --watch src/ -e ts"
+        "dev": "npx nodemon --exec \"npx tsx src/index.ts\" --watch src/ -e ts",
+        "database:generate": "npx drizzle-kit generate",
+        "database:migrate": "npx drizzle-kit migrate"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@neondatabase/serverless": "^0.9.3",
         "discord.js": "^14.15.3",
         "dotenv": "^16.4.5",
         "drizzle-orm": "^0.31.2"
