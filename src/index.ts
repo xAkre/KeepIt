@@ -8,6 +8,7 @@ const intents = [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildEmojisAndStickers,
 ];
 
 const client = new Client({
@@ -17,3 +18,5 @@ const client = new Client({
 registerEvents(client);
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
+export { client };
