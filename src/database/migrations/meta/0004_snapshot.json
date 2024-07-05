@@ -1,6 +1,6 @@
 {
-    "id": "1ad65ee1-038f-470d-93f5-65201eff24e5",
-    "prevId": "719b46b7-01c0-4238-9d3f-a3a87791461c",
+    "id": "9f6e19ca-deeb-47cf-b5ae-077f6676cee1",
+    "prevId": "1ad65ee1-038f-470d-93f5-65201eff24e5",
     "version": "7",
     "dialect": "postgresql",
     "tables": {
@@ -77,6 +77,12 @@
                     "primaryKey": true,
                     "notNull": true
                 },
+                "original_message_id": {
+                    "name": "original_message_id",
+                    "type": "bigint",
+                    "primaryKey": false,
+                    "notNull": true
+                },
                 "server_id": {
                     "name": "server_id",
                     "type": "bigint",
@@ -94,13 +100,6 @@
                     "type": "bigint",
                     "primaryKey": false,
                     "notNull": true
-                },
-                "author_is_keep_it": {
-                    "name": "author_is_keep_it",
-                    "type": "boolean",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": false
                 },
                 "content": {
                     "name": "content",
