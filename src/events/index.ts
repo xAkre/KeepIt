@@ -8,15 +8,12 @@ import {
     event as messageCreateEvent,
     handler as messageCreateHandler,
 } from './messageCreate';
-import {
-    event as messageDeleteEvent,
-    handler as messageDeleteHandler,
-} from './messageDelete';
+import { event as rawEvent, handler as rawHandler } from './raw';
 
 const registerEvents = (client: Client) => {
     client.on(clientReadyEvent, clientReadyHandler);
     client.on(messageCreateEvent, messageCreateHandler);
-    client.on(messageDeleteEvent, messageDeleteHandler);
+    client.on(rawEvent, rawHandler);
 };
 
 export { registerEvents };
