@@ -29,9 +29,20 @@ const handleMessageDelete = async (messageId: bigint) => {
         return;
     }
 
-    channel.send(
-        `Message with ID ${messageId} was deleted. Message content ${messageInDatabase.content}. :(`,
+    const newMessage = await channel.send(
+        `Message with ID ${messageInDatabase.originalMessageId} sent by ${client.users.cache.get(messageInDatabase.authorId.toString())?.tag} was deleted. Message content: ${messageInDatabase.content}`,
     );
+
+    if (!newMessage) {
+        return;
+    }
+
+    await database
+        .update(messagesTable)
+        .set({
+            messageId: BigInt(newMessage.id),
+        })
+        .where(eq(messagesTable.messageId, messageId));
 };
 
 export { handleMessageDelete };

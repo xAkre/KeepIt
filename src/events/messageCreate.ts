@@ -4,12 +4,17 @@ import { insertMessage } from '@/database/utilities';
 
 const event = Events.MessageCreate;
 const handler = (...[message]: ClientEvents[typeof event]) => {
-    if (!message.guild) {
+    if (
+        !message.guild ||
+        message.author.id === message.client.user.id ||
+        message.system
+    ) {
         return;
     }
 
     const messageMetadata: InsertMessage = {
         messageId: BigInt(message.id),
+        originalMessageId: BigInt(message.id),
         serverId: BigInt(message.guild.id),
         channelId: BigInt(message.channel.id),
         authorId: BigInt(message.author.id),
