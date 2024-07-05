@@ -1,0 +1,1 @@
+ALTER TABLE "messages" ADD COLUMN "author_is_keep_it" boolean DEFAULT false NOT NULL;

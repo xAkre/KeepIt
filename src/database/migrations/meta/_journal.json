@@ -1,27 +1,34 @@
 {
-    "version": "7",
-    "dialect": "postgresql",
-    "entries": [
-        {
-            "idx": 0,
-            "version": "7",
-            "when": 1719225755442,
-            "tag": "0000_real_klaw",
-            "breakpoints": true
-        },
-        {
-            "idx": 1,
-            "version": "7",
-            "when": 1720032152095,
-            "tag": "0001_curious_storm",
-            "breakpoints": true
-        },
-        {
-            "idx": 2,
-            "version": "7",
-            "when": 1720212265007,
-            "tag": "0002_gorgeous_thunderball",
-            "breakpoints": true
-        }
-    ]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1719225755442,
+      "tag": "0000_real_klaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720032152095,
+      "tag": "0001_curious_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720212265007,
+      "tag": "0002_gorgeous_thunderball",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720217349194,
+      "tag": "0003_panoramic_colonel_america",
+      "breakpoints": true
+    }
+  ]
 }
