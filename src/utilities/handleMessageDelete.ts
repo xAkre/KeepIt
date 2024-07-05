@@ -10,12 +10,11 @@ import { client } from '@';
  * @param messageId - The ID of the deleted message.
  */
 const handleMessageDelete = async (messageId: bigint) => {
-    messageId = BigInt(messageId);
     const messageInDatabase = await selectScalar<SelectMessage>(
         database
             .select()
             .from(messagesTable)
-            .where(eq(messagesTable.messageId, BigInt(messageId))),
+            .where(eq(messagesTable.messageId, messageId)),
     );
 
     if (!messageInDatabase) {
