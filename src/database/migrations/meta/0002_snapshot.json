@@ -1,0 +1,130 @@
+{
+    "id": "719b46b7-01c0-4238-9d3f-a3a87791461c",
+    "prevId": "500353e1-c3e3-4f99-96e8-21cc276c496b",
+    "version": "7",
+    "dialect": "postgresql",
+    "tables": {
+        "public.attachments": {
+            "name": "attachments",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "title": {
+                    "name": "title",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.message_attachments": {
+            "name": "message_attachments",
+            "schema": "",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "bigint",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "attachment_id": {
+                    "name": "attachment_id",
+                    "type": "bigint",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "message_attachments_user_id_messages_message_id_fk": {
+                    "name": "message_attachments_user_id_messages_message_id_fk",
+                    "tableFrom": "message_attachments",
+                    "tableTo": "messages",
+                    "columnsFrom": ["user_id"],
+                    "columnsTo": ["message_id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                },
+                "message_attachments_attachment_id_attachments_id_fk": {
+                    "name": "message_attachments_attachment_id_attachments_id_fk",
+                    "tableFrom": "message_attachments",
+                    "tableTo": "attachments",
+                    "columnsFrom": ["attachment_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.messages": {
+            "name": "messages",
+            "schema": "",
+            "columns": {
+                "message_id": {
+                    "name": "message_id",
+                    "type": "bigint",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "server_id": {
+                    "name": "server_id",
+                    "type": "bigint",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "channel_id": {
+                    "name": "channel_id",
+                    "type": "bigint",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "author_id": {
+                    "name": "author_id",
+                    "type": "bigint",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "content": {
+                    "name": "content",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "date_created": {
+                    "name": "date_created",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "date_edited": {
+                    "name": "date_edited",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        }
+    },
+    "enums": {},
+    "schemas": {},
+    "_meta": {
+        "columns": {},
+        "schemas": {},
+        "tables": {}
+    }
+}
