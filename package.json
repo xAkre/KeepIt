@@ -5,6 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
+        "start": "npm ci tsx && npx tsc && npx tsc-alias && cp package.json dist && sed -i '/\"type\": \"module\",/d' dist/package.json && node dist/index.js",
         "build": "npx tsc && npx tsc-alias",
         "format": "npx prettier --write .",
         "lint": "npx prettier --check . && npx eslint ./src",
