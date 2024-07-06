@@ -8,8 +8,3 @@ export {
     type InsertAttachment,
     type SelectAttachment,
 } from './attachmentsTable';
-export {
-    messageAttachmentsTable,
-    type InsertMessageAttachment,
-    type SelectMessageAttachment,
-} from './messageAttachmentsTable';

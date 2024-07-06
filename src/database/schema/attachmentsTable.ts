@@ -1,8 +1,14 @@
-import { pgTable, serial, text } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { discordSnowflake } from './customTypes';
+import { messagesTable } from './messagesTable';
 
 export const attachmentsTable = pgTable('attachments', {
     id: serial('id').primaryKey(),
     dataUrl: text('title').notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    messageId: discordSnowflake('message_id')
+        .notNull()
+        .references(() => messagesTable.messageId),
 });
 
 export type InsertAttachment = typeof attachmentsTable.$inferInsert;
