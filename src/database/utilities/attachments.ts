@@ -1,7 +1,12 @@
 import { eq, inArray } from 'drizzle-orm';
 import { Config } from '@/core/config';
 import { database } from '..';
-import { attachmentsTable, SelectMessage, InsertAttachment } from '../schema';
+import {
+    attachmentsTable,
+    SelectMessage,
+    SelectAttachment,
+    InsertAttachment,
+} from '../schema';
 import { getMessageIdsInServer } from './messages';
 
 /**
@@ -60,7 +65,7 @@ const getOldestAttachmentInServer = async (serverId: bigint) => {
  *
  * @param message - The message the attachment belongs to.
  * @param attachmentMetadata - The metadata to insert.
- * @returns The inserted attachment and a boolean indicating whether an attachment was deleted.
+ * @returns The inserted attachment, whether an attachment was deleted, and the deleted attachment.
  */
 const insertAttachment = async (
     message: SelectMessage,
@@ -70,12 +75,11 @@ const insertAttachment = async (
         message.serverId,
     );
 
+    let oldestAttachment: SelectAttachment | undefined = undefined;
     if (
         attachmentCountInServer >= Config.MAX_ATTACHMENTS_IN_DATABASE_PER_SERVER
     ) {
-        const oldestAttachment = await getOldestAttachmentInServer(
-            message.serverId,
-        );
+        oldestAttachment = await getOldestAttachmentInServer(message.serverId);
 
         if (!oldestAttachment) {
             throw new Error('Failed to select attachment to delete');
@@ -92,9 +96,10 @@ const insertAttachment = async (
 
     return {
         attachment,
-        attachmentDeleted:
+        attachmentWasDeleted:
             attachmentCountInServer >=
             Config.MAX_ATTACHMENTS_IN_DATABASE_PER_SERVER,
+        deletedAttachment: oldestAttachment,
     };
 };
 
