@@ -1,4 +1,10 @@
-import { insertMessage } from './messages';
+import {
+    getMessagesInServer,
+    getMessageIdsInServer,
+    getMessageCountInServer,
+    getOldestMessageInServer,
+    insertMessage,
+} from './messages';
 
 /**
  * Select a scalar value from the database.
@@ -16,4 +22,11 @@ const selectScalar = async <T>(query: Promise<T[]>): Promise<T | null> => {
     }
 };
 
-export { selectScalar, insertMessage };
+export {
+    selectScalar,
+    getMessagesInServer,
+    getMessageIdsInServer,
+    getMessageCountInServer,
+    getOldestMessageInServer,
+    insertMessage,
+};

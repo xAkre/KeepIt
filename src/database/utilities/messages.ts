@@ -1,4 +1,5 @@
-import { count, eq, asc } from 'drizzle-orm';
+import { eq, asc } from 'drizzle-orm';
+import { Config } from '@/core/config';
 import { database } from '..';
 import {
     type InsertMessage,
@@ -7,44 +8,87 @@ import {
 } from '../schema';
 import { selectScalar } from '.';
 
-const MAX_MESSAGES_PER_SERVER = 100;
+/**
+ * Get messages in a server.
+ *
+ * @param serverId - The server ID to get the messages for.
+ * @returns The messages in the server.
+ */
+const getMessagesInServer = async (serverId: bigint) => {
+    const messagesInServer = await database
+        .select()
+        .from(messagesTable)
+        .where(eq(messagesTable.serverId, serverId));
+
+    return messagesInServer;
+};
 
 /**
- * Insert a message into the database. If the server has more than {@link MAX_MESSAGES_PER_SERVER}
+ * Get message IDs belonging to a server.
+ *
+ * @param serverId - The server ID to get the message IDs for.
+ * @returns The message IDs in the server.
+ */
+const getMessageIdsInServer = async (serverId: bigint) => {
+    const messagesInServer = await getMessagesInServer(serverId);
+
+    const messageIdsInServer = messagesInServer.map(
+        (message) => message.messageId,
+    );
+
+    return messageIdsInServer;
+};
+
+/**
+ * Get the number of messages in a server.
+ *
+ * @param serverId - The server ID to get the message count for.
+ * @returns The number of messages in the server.
+ */
+const getMessageCountInServer = async (serverId: bigint) => {
+    const messagesInServer = await getMessagesInServer(serverId);
+
+    return messagesInServer.length;
+};
+
+/**
+ * Get the oldest message in a server.
+ *
+ * @param serverId - The server ID to get the oldest message for.
+ * @returns The oldest message in the server, or null if the server has no messages.
+ */
+const getOldestMessageInServer = async (serverId: bigint) => {
+    const oldestMessage = await selectScalar<SelectMessage>(
+        database
+            .select()
+            .from(messagesTable)
+            .where(eq(messagesTable.serverId, serverId))
+            .orderBy(asc(messagesTable.dateCreated))
+            .limit(1),
+    );
+
+    return oldestMessage;
+};
+
+/**
+ * Insert a message into the database. If the server has more than {@link Config.MAX_MESSAGES_IN_DATABASE_PER_SERVER}
  * messages, delete the oldest message.
  *
  * @param messageMetadata - The message metadata to insert.
- * @returns A promise containing a boolean indicating whether a message was
- * deleted to make room for the new message.
+ * @returns The inserted message and a boolean indicating whether a message was deleted.
  */
 const insertMessage = async (messageMetadata: InsertMessage) => {
-    const result = await selectScalar<{
-        messageCountInServer: number;
-    }>(
-        database
-            .select({
-                messageCountInServer: count(),
-            })
-            .from(messagesTable)
-            .where(eq(messagesTable.serverId, messageMetadata.serverId)),
+    const messageCountInServer = await getMessageCountInServer(
+        messageMetadata.serverId,
     );
 
-    if (!result) {
-        return false;
-    }
-
-    if (result.messageCountInServer >= MAX_MESSAGES_PER_SERVER) {
-        const messageToDelete = await selectScalar<SelectMessage>(
-            database
-                .select()
-                .from(messagesTable)
-                .where(eq(messagesTable.serverId, messageMetadata.serverId))
-                .orderBy(asc(messagesTable.dateCreated))
-                .limit(1),
+    if (messageCountInServer >= Config.MAX_MESSAGES_IN_DATABASE_PER_SERVER) {
+        const messageToDelete = await getOldestMessageInServer(
+            messageMetadata.serverId,
         );
 
         if (!messageToDelete) {
-            return false;
+            throw new Error('Failed to select message to delete');
         }
 
         await database
@@ -52,9 +96,21 @@ const insertMessage = async (messageMetadata: InsertMessage) => {
             .where(eq(messagesTable.messageId, messageToDelete.messageId));
     }
 
-    await database.insert(messagesTable).values(messageMetadata);
+    const message = await database
+        .insert(messagesTable)
+        .values(messageMetadata);
 
-    return result.messageCountInServer >= MAX_MESSAGES_PER_SERVER;
+    return {
+        message,
+        messageDeleted:
+            messageCountInServer >= Config.MAX_MESSAGES_IN_DATABASE_PER_SERVER,
+    };
 };
 
-export { insertMessage };
+export {
+    getMessagesInServer,
+    getMessageIdsInServer,
+    getMessageCountInServer,
+    getOldestMessageInServer,
+    insertMessage,
+};
