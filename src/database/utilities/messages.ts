@@ -96,12 +96,13 @@ const insertMessage = async (messageMetadata: InsertMessage) => {
             .where(eq(messagesTable.messageId, messageToDelete.messageId));
     }
 
-    const message = await database
+    const result = await database
         .insert(messagesTable)
-        .values(messageMetadata);
+        .values(messageMetadata)
+        .returning();
 
     return {
-        message,
+        message: result[0],
         messageDeleted:
             messageCountInServer >= Config.MAX_MESSAGES_IN_DATABASE_PER_SERVER,
     };
