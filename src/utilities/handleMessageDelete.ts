@@ -1,7 +1,8 @@
+import { MessageCreateOptions, AttachmentPayload } from 'discord.js';
 import { eq } from 'drizzle-orm';
 import { database } from '@/database';
 import { type SelectMessage, messagesTable } from '@/database/schema';
-import { selectScalar } from '@/database/utilities';
+import { selectScalar, getMessageAttachments } from '@/database/utilities';
 import { client } from '@';
 
 /**
@@ -39,9 +40,25 @@ const handleMessageDelete = async (messageId: bigint) => {
         );
     }
 
-    const newMessage = await channel.send(
-        `Message with ID ${messageInDatabase.originalMessageId} sent by ${messageAuthor.tag} was deleted. Message content: ${messageInDatabase.content}`,
+    const messageAttachmentsInDatabase = await getMessageAttachments(
+        messageInDatabase.messageId,
     );
+    const messageAttachments: AttachmentPayload[] | undefined =
+        messageAttachmentsInDatabase.length > 0
+            ? messageAttachmentsInDatabase.map((attachment) => {
+                  return {
+                      attachment: attachment.fileUrl,
+                      name: attachment.fileUrl.split('_', 2)[2],
+                  };
+              })
+            : undefined;
+
+    const messageCreateOptions: MessageCreateOptions = {
+        content: `Message sent by ${messageAuthor.tag} was deleted. Message content: \n\n${messageInDatabase.content}`,
+        files: messageAttachments,
+    };
+
+    const newMessage = await channel.send(messageCreateOptions);
 
     if (!newMessage) {
         return;
