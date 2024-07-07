@@ -57,6 +57,13 @@
             "when": 1720371599354,
             "tag": "0007_silly_maximus",
             "breakpoints": true
+        },
+        {
+            "idx": 8,
+            "version": "7",
+            "when": 1720375298519,
+            "tag": "0008_exotic_husk",
+            "breakpoints": true
         }
     ]
 }

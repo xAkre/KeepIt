@@ -8,7 +8,9 @@ export const attachmentsTable = pgTable('attachments', {
     createdAt: timestamp('created_at').notNull().defaultNow(),
     messageId: discordSnowflake('message_id')
         .notNull()
-        .references(() => messagesTable.messageId),
+        .references(() => messagesTable.messageId, {
+            onUpdate: 'cascade',
+        }),
 });
 
 export type InsertAttachment = typeof attachmentsTable.$inferInsert;
