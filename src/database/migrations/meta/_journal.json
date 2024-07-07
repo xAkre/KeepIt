@@ -1,55 +1,62 @@
 {
-    "version": "7",
-    "dialect": "postgresql",
-    "entries": [
-        {
-            "idx": 0,
-            "version": "7",
-            "when": 1719225755442,
-            "tag": "0000_real_klaw",
-            "breakpoints": true
-        },
-        {
-            "idx": 1,
-            "version": "7",
-            "when": 1720032152095,
-            "tag": "0001_curious_storm",
-            "breakpoints": true
-        },
-        {
-            "idx": 2,
-            "version": "7",
-            "when": 1720212265007,
-            "tag": "0002_gorgeous_thunderball",
-            "breakpoints": true
-        },
-        {
-            "idx": 3,
-            "version": "7",
-            "when": 1720217349194,
-            "tag": "0003_panoramic_colonel_america",
-            "breakpoints": true
-        },
-        {
-            "idx": 4,
-            "version": "7",
-            "when": 1720219039409,
-            "tag": "0004_nice_lightspeed",
-            "breakpoints": true
-        },
-        {
-            "idx": 5,
-            "version": "7",
-            "when": 1720260628586,
-            "tag": "0005_dizzy_bucky",
-            "breakpoints": true
-        },
-        {
-            "idx": 6,
-            "version": "7",
-            "when": 1720369791290,
-            "tag": "0006_majestic_norrin_radd",
-            "breakpoints": true
-        }
-    ]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1719225755442,
+      "tag": "0000_real_klaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720032152095,
+      "tag": "0001_curious_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720212265007,
+      "tag": "0002_gorgeous_thunderball",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720217349194,
+      "tag": "0003_panoramic_colonel_america",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1720219039409,
+      "tag": "0004_nice_lightspeed",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1720260628586,
+      "tag": "0005_dizzy_bucky",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1720369791290,
+      "tag": "0006_majestic_norrin_radd",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1720371599354,
+      "tag": "0007_silly_maximus",
+      "breakpoints": true
+    }
+  ]
 }

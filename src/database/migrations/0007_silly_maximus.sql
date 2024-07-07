@@ -1,0 +1,1 @@
+ALTER TABLE "attachments" RENAME COLUMN "file_name" TO "file_url";
