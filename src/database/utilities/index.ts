@@ -10,7 +10,7 @@ import {
     getAttachmentCountInServer,
     getOldestAttachmentInServer,
     insertAttachment,
-    getAttachmentsInMessage,
+    getMessageAttachments,
 } from './attachments';
 
 /**
@@ -40,5 +40,5 @@ export {
     getAttachmentCountInServer,
     getOldestAttachmentInServer,
     insertAttachment,
-    getAttachmentsInMessage,
+    getMessageAttachments,
 };
