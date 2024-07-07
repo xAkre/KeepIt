@@ -5,6 +5,12 @@ import {
     getOldestMessageInServer,
     insertMessage,
 } from './messages';
+import {
+    getAttachmentsInServer,
+    getAttachmentCountInServer,
+    getOldestAttachmentInServer,
+    insertAttachment,
+} from './attachments';
 
 /**
  * Select a scalar value from the database.
@@ -29,4 +35,8 @@ export {
     getMessageCountInServer,
     getOldestMessageInServer,
     insertMessage,
+    getAttachmentsInServer,
+    getAttachmentCountInServer,
+    getOldestAttachmentInServer,
+    insertAttachment,
 };
