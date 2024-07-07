@@ -4,7 +4,7 @@ import { messagesTable } from './messagesTable';
 
 export const attachmentsTable = pgTable('attachments', {
     id: serial('id').primaryKey(),
-    dataUrl: text('title').notNull(),
+    fileName: text('file_name').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     messageId: discordSnowflake('message_id')
         .notNull()

@@ -43,6 +43,13 @@
             "when": 1720260628586,
             "tag": "0005_dizzy_bucky",
             "breakpoints": true
+        },
+        {
+            "idx": 6,
+            "version": "7",
+            "when": 1720369791290,
+            "tag": "0006_majestic_norrin_radd",
+            "breakpoints": true
         }
     ]
 }
