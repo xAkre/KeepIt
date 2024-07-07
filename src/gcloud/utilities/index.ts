@@ -39,4 +39,14 @@ const saveAttachmentFromUrl = async (
     });
 };
 
-export { saveAttachmentFromUrl };
+const deleteAttachmentFromUrl = async (bucketName: string, url: string) => {
+    const fileName = url.split('/').pop();
+
+    if (!fileName) {
+        return;
+    }
+
+    return storage.bucket(bucketName).file(fileName).delete();
+};
+
+export { saveAttachmentFromUrl, deleteAttachmentFromUrl };
