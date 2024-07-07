@@ -29,8 +29,18 @@ const handleMessageDelete = async (messageId: bigint) => {
         return;
     }
 
+    /* Try to fetch the user from the cache first as it is faster */
+    let messageAuthor = client.users.cache.get(
+        messageInDatabase.authorId.toString(),
+    );
+    if (!messageAuthor) {
+        messageAuthor = await client.users.fetch(
+            messageInDatabase.authorId.toString(),
+        );
+    }
+
     const newMessage = await channel.send(
-        `Message with ID ${messageInDatabase.originalMessageId} sent by ${client.users.cache.get(messageInDatabase.authorId.toString())?.tag} was deleted. Message content: ${messageInDatabase.content}`,
+        `Message with ID ${messageInDatabase.originalMessageId} sent by ${messageAuthor.tag} was deleted. Message content: ${messageInDatabase.content}`,
     );
 
     if (!newMessage) {
