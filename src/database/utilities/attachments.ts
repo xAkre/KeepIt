@@ -98,9 +98,25 @@ const insertAttachment = async (
     };
 };
 
+/**
+ * Get attachments belonging to a message.
+ *
+ * @param messageId - The message ID to get the attachments for.
+ * @returns The attachments belonging to the message.
+ */
+const getAttachmentsInMessage = async (messageId: bigint) => {
+    const attachmentsInMessage = await database
+        .select()
+        .from(attachmentsTable)
+        .where(eq(attachmentsTable.messageId, messageId));
+
+    return attachmentsInMessage;
+};
+
 export {
     getAttachmentsInServer,
     getAttachmentCountInServer,
     getOldestAttachmentInServer,
     insertAttachment,
+    getAttachmentsInMessage,
 };
