@@ -8,7 +8,7 @@ import { storage } from '..';
  * @param destinationFileName - The name of the file to save the attachment as.
  * @returns The name of the file the attachment was saved as.
  */
-const saveAttachementFromUrl = async (
+const saveAttachmentFromUrl = async (
     bucketName: string,
     url: string,
     destinationFileName: string,
@@ -39,4 +39,4 @@ const saveAttachementFromUrl = async (
     });
 };
 
-export { saveAttachementFromUrl };
+export { saveAttachmentFromUrl };
