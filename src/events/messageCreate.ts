@@ -4,7 +4,10 @@ import { Events, ClientEvents } from 'discord.js';
 import { Config } from '@/core/config';
 import { InsertMessage } from '@/database/schema';
 import { insertMessage, insertAttachment } from '@/database/utilities';
-import { saveAttachmentFromUrl } from '@/gcloud/utilities';
+import {
+    saveAttachmentFromUrl,
+    deleteAttachmentFromUrl,
+} from '@/gcloud/utilities';
 
 dotenv.config();
 
@@ -40,10 +43,18 @@ const handler = async (...[message]: ClientEvents[typeof event]) => {
                     attachment.url,
                     destinationFileName,
                 );
-                insertAttachment(insertedMessage, {
-                    fileUrl: `https://storage.googleapis.com/${Config.GOOGLE_CLOUD_STORAGE_BUCKET}/${destinationFileName}`,
-                    messageId: insertedMessage.messageId,
-                });
+                const { attachmentWasDeleted, deletedAttachment } =
+                    await insertAttachment(insertedMessage, {
+                        fileUrl: `https://storage.googleapis.com/${Config.GOOGLE_CLOUD_STORAGE_BUCKET}/${destinationFileName}`,
+                        messageId: insertedMessage.messageId,
+                    });
+
+                if (attachmentWasDeleted) {
+                    deleteAttachmentFromUrl(
+                        Config.GOOGLE_CLOUD_STORAGE_BUCKET,
+                        deletedAttachment!.fileUrl,
+                    );
+                }
             } catch (error) {
                 /* TODO: If there is an error saving the attachment, revert any additions to gcloud and the database */
                 console.error(error);
