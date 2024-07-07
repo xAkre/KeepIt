@@ -1,32 +1,42 @@
 import { storage } from '..';
 
 /**
- * Save an attachment stored locally to Google Cloud Storage
+ * Save an attachment from a URL to Google Cloud Storage.
  *
- * @param bucketName - The name of the bucket to save the attachment to
- * @param filePath - The path to the attachment to save
- * @param destinationFileName - The name to save the attachment as
- * @returns A boolean indicating whether the attachment was saved successfully
+ * @param bucketName - The name of the bucket to save the attachment to.
+ * @param url - The URL of the attachment to save.
+ * @param destinationFileName - The name of the file to save the attachment as.
+ * @returns The name of the file the attachment was saved as.
  */
-const saveLocalAttachment = async (
+const saveAttachementFromUrl = async (
     bucketName: string,
-    filePath: string,
+    url: string,
     destinationFileName: string,
 ) => {
-    const options = {
-        destination: destinationFileName,
-    };
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    try {
-        await storage.bucket(bucketName).upload(filePath, options);
-        return true;
-    } catch (error) {
-        console.error(
-            'Error saving attachment to Google Cloud Storage:',
-            error,
-        );
-        return false;
-    }
+    const fileStream = storage
+        .bucket(bucketName)
+        .file(destinationFileName)
+        .createWriteStream({
+            metadata: {
+                contentType: response.headers.get('Content-Type') || undefined,
+            },
+        });
+
+    return new Promise((resolve, reject) => {
+        fileStream.on('finish', () => {
+            resolve(destinationFileName);
+        });
+
+        fileStream.on('error', (error) => {
+            reject(error);
+        });
+
+        fileStream.end(buffer);
+    });
 };
 
-export { saveLocalAttachment };
+export { saveAttachementFromUrl };
