@@ -1,5 +1,6 @@
 node_modules
 .env
+.vscode
 build
 dist
 service-account-key.json
