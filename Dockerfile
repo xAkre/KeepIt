@@ -17,6 +17,8 @@ RUN npm ci
 
 COPY . .
 
+RUN npm run database:migrate
+
 RUN npm run build
 
 RUN cp package*.json dist/
